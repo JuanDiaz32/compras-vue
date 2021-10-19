@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class EnvioService{
-    url="http://localhost:8000/envio";
+    url="http://192.168.17.108:8080/envio";
 
     obtenerTodos(){
         return axios.get(`${this.url}/todos`);

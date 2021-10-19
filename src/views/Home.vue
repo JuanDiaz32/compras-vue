@@ -62,7 +62,6 @@ export default {
         }).catch((error)=>{
             console.log("Error Envios",error);
         });
-    this.listaCompras= CompraService.obtenerTodos();
   },
   data() {
     return {

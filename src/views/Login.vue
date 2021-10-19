@@ -16,13 +16,17 @@ export default {
   methods:{
     iniciar(){
       
-      ClienteService.validar(this.usuario, this.password);
-      this.cliente=ClienteService.obtenerCliente();
-      if(this.cliente.nombre){
-        this.$router.push({name:"Compras"});
-      }else{
-        this.error="Datos inválidos";
-      }
+      ClienteService.validar(this.usuario, this.password).then((respuesta)=>{
+        
+        if (respuesta.data.nombre){
+
+          localStorage.cliente = respuesta.data.id;
+
+          this.$router.push({name:"Compras"});
+        }else{
+          this.error="Datos inválidos";
+        }
+      });
     }
   },
   data(){

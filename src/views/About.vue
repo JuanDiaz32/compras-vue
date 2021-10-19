@@ -4,13 +4,12 @@
   <div id="nav">
     <router-link to="/">Registrar Compra</router-link> |
     <router-link to="/compras">Lista de Compras</router-link> |
-    <router-link :to="{name: 'Login'}">Cerrar Sesión</router-link>
+    <a @click.prevent="cerrarSesion" href="#">Cerrar Sesión</a>
   </div>
-            <h1>{{titulo}}</h1>
+      <h1>Listado de Compras - {{cliente.nombre}}</h1>
         </header> 
         <main>
           <div>
-      <h2>Listado de Compras - {{cliente.nombre}}</h2>
       <table border="1">
         <thead>
           <tr>
@@ -49,12 +48,14 @@ import ClienteService from "@/services/clientes.js";
 
 export default {
   mounted(){
-    this.listaCompras=CompraService.obtenerTodos();
-    this.cliente=ClienteService.obtenerCliente();
+    
+    ClienteService.obtenerPorCliente().then((respuesta)=>{
+      this.listaCompras = respuesta.data;
+    });
 
-      if(!this.cliente.nombre){
-        this.$router.push({name:"Login"});
-      }
+    ClienteService.obtenerCliente().then((respuesta)=>{
+      this.cliente = respuesta.data;
+    });
   },
   data(){
     return {
@@ -63,6 +64,12 @@ export default {
       nombresEnvio: ["Express", "Normal"],
       cliente:{}
     };
+  },
+  methods:{
+    cerrarSesion(){
+      localStorage.clear();
+      this.$router.push({name:"Login"});
+    }
   }
 }
 </script>
@@ -73,5 +80,11 @@ export default {
     background-color: green;
     padding: 1rem;
     text-decoration: none;
+    margin-top: 5rem;
   }
+
+  table{
+    margin: 2rem auto;
+  }
+
 </style>
